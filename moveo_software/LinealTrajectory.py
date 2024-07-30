@@ -301,15 +301,15 @@ def rmve_Singularities(
 
         if np.any(rel_error > rel_tol):
 
-            print("SINGULARITY FOUND AT:")
+            print(f"SINGULARITY FOUND AT POSES {i+1} - {i+2}:")
             print(f"Current q: {q_curr}")
             print(f"Next q: {q_next}")
-            print(f"Relative Deviation: {rel_error}")
+            print(f"Relative Deviation (%): {np.round(rel_error*100,2)}")
             print(f'This may lead to problems in the trajectory execution')
             print()
 
             max_rel_error = np.max(rel_error)
-            steps = max(5, int(np.ceil(max_rel_error * 50)))
+            steps = max(10, int(np.ceil(max_rel_error * 50)))
             n_interp_points += steps
 
             interp_t_start = t_new[-1]
@@ -319,6 +319,9 @@ def rmve_Singularities(
             interpolated_qs = AF.interpolate_q_in_range(
                 q_curr, q_next, joint_type, joint_ranges, steps,
             )
+
+            print(type(interpolated_qs))
+            print(interpolated_qs)
 
             q_new.extend(
                 interpolated_qs[1:]

@@ -12,7 +12,7 @@ Moveo.cmd_MoveL(
     trgtQ=[math.pi / 2, math.pi / 2, -math.pi / 2, 0, 0], cartVel=0.006, cartAccel=0.1, mask = [1,1,1,1,0,0]
 )
 Moveo.cmd_WaitEndMove()
-Moveo.cmd_getJointValues()
+print(Moveo.cmd_getJointValues())
 
 Moveo.cmd_MoveJ(trgtQ=[math.pi / 2, math.pi / 2, -math.pi / 2, 0, 0], maxVel=1, Accel=0.5)
 Moveo.cmd_WaitEndMove()

@@ -504,7 +504,7 @@ class GiRbot(PhysicalRobot):
 
             self.mov_time = 0.1  # Final position already reached
 
-            self.cmd_setTargetPose(traj.q[-1])
+            self.cmd_setTargetPose(q=traj.q[-1])
             self.current_q = traj.q[-1]
 
             print("Succesfully set movement type to position.")

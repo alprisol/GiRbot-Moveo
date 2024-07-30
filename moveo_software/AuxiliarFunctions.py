@@ -177,33 +177,47 @@ def calc_dist_in_range(value1, value2, is_linear, valid_range):
 
     return distances
 
-def interpolate_q_in_range(q1, q2, joint_type, joint_ranges, n_interp):
 
-    print('JOINT INTERPOLATION IN RANGE')
+def interpolate_q_in_range(q1, q2, joint_type, joint_ranges, n_interp):
+    import numpy as np
+
+    print("JOINT INTERPOLATION IN RANGE")
+    print(f"q1: {q1}")
+    print(f"q2: {q2}")
+    print(f"joint_type: {joint_type}")
+    print(f"joint_ranges: {joint_ranges}")
+    print(f"n_interp: {n_interp}")
+
     if len(q1) != len(q2):
         raise ValueError("q arrays must be of the same length.")
 
+    # Assuming calc_dist_in_range is a function that calculates the distance considering joint limits
     valid_distances = calc_dist_in_range(q1, q2, joint_type, joint_ranges)
+    print(f"Valid distances in range: {valid_distances}")
 
-    q_interp = []
+    q_interp = np.zeros((n_interp, len(q1)))
 
     for i in range(len(q1)):
+        print(f"Interpolating joint {i} from {q1[i]} to {q2[i]}")
         # Determine the number of interpolation points for each joint, excluding the last point
         points = np.linspace(0, valid_distances[i], n_interp + 1)
+        print(f"Points for joint {i}: {points}")
 
         # Interpolating for each joint
-        for n in points[:-1]:  # Exclude the last point to avoid q2 duplication
+        for j, n in enumerate(
+            points[:-1]
+        ):  # Exclude the last point to avoid q2 duplication
             interpolated_value = q1[i] + n
-            q_interp.append(interpolated_value)
+            print(f"Interpolated value for joint {i} at step {j}: {interpolated_value}")
+            q_interp[j, i] = interpolated_value
 
-    # Converting the list to numpy array and reshaping
-    q_interp = np.array(q_interp).reshape(n_interp, len(q1))
+    print(f"q_interp before wrapping angles: {q_interp}")
 
-    # Wrap angles if necessary
+    # Wrap angles if necessary, assuming wrap_angle_list is a function that handles angle wrapping
     q_interp = wrap_angle_list(q_interp)
+    print(f"q_interp after wrapping angles: {q_interp}")
 
     return q_interp
-
 
 def get_one_every_n(array, n):
     """
