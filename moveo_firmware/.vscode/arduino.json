@@ -1,0 +1,8 @@
+{
+    "configuration": "cpu=atmega2560",
+    "board": "arduino:avr:mega",
+    "port": "/dev/ttyACM0",
+    "programmer": "avrisp",
+    "sketch": "moveo_firmware.ino",
+    "output": "build"
+}

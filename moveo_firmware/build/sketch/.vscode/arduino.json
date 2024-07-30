@@ -1,0 +1,9 @@
+#line 1 "/home/cirs/moveo/moveo_firmware/.vscode/arduino.json"
+{
+    "configuration": "cpu=atmega2560",
+    "board": "arduino:avr:mega",
+    "port": "/dev/ttyACM0",
+    "programmer": "avrisp",
+    "sketch": "moveo_firmware.ino",
+    "output": "build"
+}

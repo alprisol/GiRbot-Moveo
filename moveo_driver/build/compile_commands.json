@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/cirs/moveo/moveo_driver/build",
+  "command": "/usr/bin/c++  -Dmoveo_driver_EXPORTS -I/home/cirs/moveo/moveo_driver/build -I/home/cirs/moveo/moveo_driver/include -isystem /home/cirs/.local/include -isystem /usr/include/python3.6m  -g -fPIC -fvisibility=hidden   -std=gnu++1z -o CMakeFiles/moveo_driver.dir/src/moveo_driver.cpp.o -c /home/cirs/moveo/moveo_driver/src/moveo_driver.cpp",
+  "file": "/home/cirs/moveo/moveo_driver/src/moveo_driver.cpp"
+},
+{
+  "directory": "/home/cirs/moveo/moveo_driver/build",
+  "command": "/usr/bin/c++  -Dmoveo_driver_EXPORTS -I/home/cirs/moveo/moveo_driver/build -I/home/cirs/moveo/moveo_driver/include -isystem /home/cirs/.local/include -isystem /usr/include/python3.6m  -g -fPIC -fvisibility=hidden   -std=gnu++1z -o CMakeFiles/moveo_driver.dir/src/moveo.cpp.o -c /home/cirs/moveo/moveo_driver/src/moveo.cpp",
+  "file": "/home/cirs/moveo/moveo_driver/src/moveo.cpp"
+},
+{
+  "directory": "/home/cirs/moveo/moveo_driver/build",
+  "command": "/usr/bin/c++  -Dmoveo_driver_EXPORTS -I/home/cirs/moveo/moveo_driver/build -I/home/cirs/moveo/moveo_driver/include -isystem /home/cirs/.local/include -isystem /usr/include/python3.6m  -g -fPIC -fvisibility=hidden   -std=gnu++1z -o CMakeFiles/moveo_driver.dir/src/serial_cobs.cpp.o -c /home/cirs/moveo/moveo_driver/src/serial_cobs.cpp",
+  "file": "/home/cirs/moveo/moveo_driver/src/serial_cobs.cpp"
+}
+]
