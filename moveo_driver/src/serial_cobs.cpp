@@ -187,7 +187,7 @@ void SerialCOBS::encodePacket(const SerialPacket* pck, uint8_t* bytes, uint8_t* 
 	cobsEncode(buffer, bytes, 4+pck->dataLen);
 	*len = 4+pck->dataLen+2;
 
-    printf("[TX] Packet cmd: %x data length: %d\n", pck->cmd, pck->dataLen);
+    printf(" --> [TX] Packet cmd: %x data length: %d\n", pck->cmd, pck->dataLen);
     for (uint8_t i = 0; i < *len; ++i)
         printf("%x ", bytes[i]);
     printf("\n");
@@ -220,7 +220,7 @@ bool SerialCOBS::decodePacket(const uint8_t* bytes, size_t len, SerialPacket* pc
 	for(uint8_t i=0; i<pck->dataLen; ++i)
 		pck->data[i] = buffer[3+i];
 
-    printf("[RX] Packet cmd: %x data length: %d\n", pck->cmd, pck->dataLen);
+    printf(" <-- [RX] Packet cmd: %x data length: %d\n", pck->cmd, pck->dataLen);
     for (uint8_t i = 0; i < len; ++i)
         printf("%x ", bytes[i]);
     printf("\n");

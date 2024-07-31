@@ -17,7 +17,7 @@ extern const int ENB_pins[NUM_MOTORS]; // Defined in the implementation file
 #define MAX_ACCEL 3000
 
 // Tolerance for the target position
-#define STEP_TOLERANCE 5
+#define STEP_TOLERANCE 0
 
 // Define the pin to which the servo is connected
 extern const int servoPin;

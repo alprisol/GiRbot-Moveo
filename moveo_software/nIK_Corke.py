@@ -83,6 +83,9 @@ def ikine_LM_Corke(
         mask = None
 
     print(f'Mask set at {mask}. Change it if necessary with attribute <mask>')
+    print(
+        f"Valid Ranges for Corke's robot:\n{list(CorkeRobot.qlim[0])}\n{list(CorkeRobot.qlim[1])}"
+    )
 
     # Loop over each target pose
     for i, trgt_pose in enumerate(trgt_poses):
@@ -105,10 +108,11 @@ def ikine_LM_Corke(
         # Solve inverse kinematics for the current pose
         good_solution = False
         attempt_count = 0
-        max_attempts = 10
+        max_attempts = 50
 
         while not good_solution and attempt_count < max_attempts:
             try:
+
                 ik_sol = CorkeRobot.ikine_LM(
                     Tep=Tt,
                     joint_limits=q_lim,
@@ -119,14 +123,16 @@ def ikine_LM_Corke(
                     mask=mask if i != 0 else [1,1,1,1,1,1],
                 )
 
-                q_sol = ik_sol.q
-                DHRobot.check_JointInsideRange(q_sol)
+                q_sol = list(ik_sol.q)
+                DHRobot.check_JointInsideRange(check_val=q_sol)
 
-                if i == 0 and not AF.floats_equal(list(q_sol),list(q0),tol=1e-3):
+                if q0 is not None:
 
-                    print('Initial solution no equal given starting configuration')
-                    good_solution = False
-                    attempt_count += 1
+                    if i == 0 and not AF.floats_equal(list(q_sol),list(q0),tol=1e-3):
+
+                        print('Initial solution no equal given starting configuration')
+                        good_solution = False
+                        attempt_count += 1
 
                 if i == 0 or i == len(trgt_poses) - 1:
                     print(f"Corke IK sol {i+1}: {q_sol}")
@@ -135,9 +141,16 @@ def ikine_LM_Corke(
                     print('... calculating IK solutions for intermediate points ...')
 
                 good_solution = True
-                
+
             except ValueError as e:
                 print(f"Attempt {attempt_count + 1}: ValueError encountered - {e}")
+                if q0 is None:
+                    q_samples = np.delete(
+                        q_samples,
+                        AF.nearest_neighbor(pose_samples, trgt_pose, True),
+                        axis=0,
+                    )
+                    q_closer = q_samples[AF.nearest_neighbor(pose_samples, trgt_pose, True)]
                 attempt_count += 1
 
         if not good_solution:

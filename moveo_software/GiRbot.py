@@ -620,29 +620,13 @@ class GiRbot(PhysicalRobot):
         print("-----------------------------------")
         print()
 
-    def cmd_MoveHome(self):
+    def cmd_MoveHome(self, maxVel = 0.5, maxAccel = 0.25):
 
         print()
         print("------------ MOVE HOME --------------")
 
         self.cmd_setTargetPose(q=self.home_q)
-
-        m_Vel = []
-        m_Accel = []
-
-        for j in self.MotorsPerJoint:
-            for m in j:
-                m_Vel.append(m.maxStepsVel)
-                m_Accel.append(m.maxStepsAccel)
-
-        motor_params = np.array(m_Vel + m_Accel) / 10
-
-        if not self.driver.moveToPosition(list(motor_params)):
-            raise Exception("Error moving to position!")
-
-        print('Motor velocities setted correctlly')
-
-        self.mov_time = 15
+        self.cmd_moveToPosition(trgtQ=self.home_q, maxVel=maxVel, Accel=maxAccel)
 
         print("-----------------------------------")
         print()

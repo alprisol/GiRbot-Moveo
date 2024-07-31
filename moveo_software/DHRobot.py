@@ -241,6 +241,7 @@ class DHRobot:
                 raise ValueError(f"Joint value {val} at index {idx} is out of range {qlim}.")
 
             return in_range
+        
 
         if check_val is not None and idx is not None:
 

@@ -207,7 +207,7 @@ class PhysicalRobot(DHRobot):
 
         joint_range = self.get_JointRanges()
 
-        print('Joint angle range:', AF.round_list(joint_range))
+        print('Joint angle range:', AF.round_list(joint_range,4))
 
         low_joint_range = [j_range[0] for j_range in joint_range]
         high_joint_range = [j_range[1] for j_range in joint_range]

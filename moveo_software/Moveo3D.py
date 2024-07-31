@@ -123,4 +123,3 @@ Moveo = GiRbot(
     DH_Tool=tool,
     DH_IKsolver=IK_solver,
 )
-
