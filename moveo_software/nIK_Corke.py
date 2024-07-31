@@ -121,8 +121,6 @@ def ikine_LM_Corke(
 
                 q_sol = ik_sol.q
                 DHRobot.check_JointInsideRange(q_sol)
-                print(f"Corke IK sol {i+1}: {q_sol}")
-                good_solution = True
 
                 if i == 0 and not AF.floats_equal(list(q_sol),list(q0),tol=1e-3):
 
@@ -130,8 +128,14 @@ def ikine_LM_Corke(
                     good_solution = False
                     attempt_count += 1
 
-                    mask
+                if i == 0 or i == len(trgt_poses) - 1:
+                    print(f"Corke IK sol {i+1}: {q_sol}")
 
+                elif i == 1: 
+                    print('... calculating IK solutions for intermediate points ...')
+
+                good_solution = True
+                
             except ValueError as e:
                 print(f"Attempt {attempt_count + 1}: ValueError encountered - {e}")
                 attempt_count += 1

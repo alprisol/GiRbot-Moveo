@@ -61,8 +61,12 @@ bool Moveo::connect(const std::string& port)
 
 void Moveo::disconnect()
 {
+    std::cout << std::endl
+              << std::endl;
+    std::cout << "------- STOPPING MOTORS & DISCONNECTING FROM MOVEO -------" << std::endl;
     stop();
     serial_.closePort();
+    std::cout << "----------------------------------------------------------" << std::endl;
 }
 
 bool Moveo::setMotorParams(std::vector<float> motor_params)

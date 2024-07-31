@@ -1,5 +1,14 @@
+
+# Normal directories to ignore
 .vscode/
 __pycache__/
 
+# Virtual envoiroment
 moveo_software/TLBXvenv/
 TLBXvenv/
+
+#Debuging and testing files-directories
+moveo_software/LTraj_files/
+moveo_software/test_calcDist.py
+moveo_software/test_*
+

@@ -569,35 +569,29 @@ class DHRobot:
 
 
         # Forward difference for the first time-stamp
-        print(f'Diriving firs pose: {q[0]}')
         for j in range(N):
             is_linear = prismatic_joints[j]
             valid_range = joint_ranges[j]
-            print(f'Valid range of Joint {j+1}: {valid_range}')
-            print(f'Angles values: q1: {round(q[0,j],2)}, q2: {round(q[1,j],2)}')
+
             qd[0, j] = -1 * AF.calc_dist_in_range(q[1, j], q[0, j], is_linear, valid_range) / dt[0]
         print()
 
         # Central difference for the intermediate points
         for i in range(1, M - 1):
-            print(f"Deriving pose {i+1}: {q[i]}")
+
             for j in range(N):
                 is_linear = prismatic_joints[j]
                 valid_range = joint_ranges[j]
-                print(f'Valid range of Joint {j+1}: {valid_range}')
-                print(f'Angles values: qi-1:{round(q[i-1,j],2)} qi: {round(q[i,j])}, qi+1: {round(q[i+1,j],2)}')
+    
                 qd[i, j] = -1 * AF.calc_dist_in_range(q[i + 1, j], q[i - 1, j], is_linear, valid_range) / (dt[i] + dt[i - 1])
-            print()
+
 
             # Backward difference for the last time-stamp
-        print(f"Deriving last pose : {q[-1]}")
         for j in range(N):
             is_linear = prismatic_joints[j]
             valid_range = joint_ranges[j]
-            print(f'Valid range of Joint {j+1}: {valid_range}')
-            print(f'Angles values: q-2: {round(q[-2,j],2)}, q-1: {round(q[-1,j],2)}')
+
             qd[-1, j] = -1 * AF.calc_dist_in_range(q[-1, j], q[-2, j], is_linear, valid_range) / dt[-1]
-        print()
 
         # Setting the first and the last velocities to zero as specified
         qd[0, :] = 0

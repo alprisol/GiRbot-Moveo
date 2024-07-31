@@ -11,7 +11,7 @@ from nIK_Corke import ikine_LM_Corke as IK_solver
 
 from typing import List, Union, Optional, Callable, Type
 
-import moveo_driver as md
+import moveo_driver as MD
 import time
 
 
@@ -67,7 +67,6 @@ class GiRbot(PhysicalRobot):
             raise Exception("Error connecting to Moveo!")
 
         print("Succesfully connected")
-        print()
 
         self.connected = True
 
@@ -91,12 +90,11 @@ class GiRbot(PhysicalRobot):
             motor_params = m_maxVel + m_maxAccel
 
             if not self.driver.setMotorParams(motor_params):
-                raise Exception("Error moving to position!")
+                raise Exception("Error setting motor parameters!")
 
-            print("Max. Velocity in steps/s:", m_maxVel)
-            print("Max. Acceleration in steps/s2:", m_maxAccel)
+            print("Max. Velocity in steps/s:", AF.round_list(m_maxVel))
+            print("Max. Acceleration in steps/s2:", AF.round_list(m_maxAccel))
             print("Succesfully set default motor parameters")
-            print()
 
             time.sleep(0.1)
             return True
@@ -121,7 +119,6 @@ class GiRbot(PhysicalRobot):
                 raise Exception("Error setting motor Ranges")
 
             print("Succesfully set motor limits")
-            print()
 
             time.sleep(0.1)
             return True
@@ -140,7 +137,6 @@ class GiRbot(PhysicalRobot):
                 raise Exception("Error stopping Motors")
 
             print("Succesfully stopped")
-            print()
 
             time.sleep(0.1)
             return True
@@ -159,7 +155,6 @@ class GiRbot(PhysicalRobot):
                 raise Exception("Error enabling Motors")
 
             print("Succesfully enabled motors.")
-            print()
 
             time.sleep(0.1)
             return True
@@ -178,47 +173,8 @@ class GiRbot(PhysicalRobot):
                 raise Exception("Error disabling Motors")
 
             print("Succesfully disabled motors")
-            print()
 
             time.sleep(0.1)
-            return True
-
-        else:
-
-            raise Exception(self.not_connected_error_msg)
-
-    def cmd_openGripper(self):
-
-        if self.connected:
-
-            print("Opening gripper...")
-
-            if not self.driver.openGripper():
-                raise Exception("Error opening Gripper")
-
-            print("Succesfully opened gripper.")
-            print()
-
-            time.sleep(0.3)
-            return True
-
-        else:
-
-            raise Exception(self.not_connected_error_msg)
-
-    def cmd_closeGripper(self):
-
-        if self.connected:
-
-            print("Closing gripper...")
-
-            if not self.driver.closeGripper():
-                raise Exception("Error closing Gripper")
-
-            print("Succesfully closed gripper.")
-            print()
-
-            time.sleep(0.3)
             return True
 
         else:
@@ -234,14 +190,15 @@ class GiRbot(PhysicalRobot):
             flat_qm = self.driver.getCurrentPosition()
             if len(flat_qm) != self.n_motors:
                 raise Exception("Error getting position!")
-            print("Motor Steps Position:", flat_qm)
+
+            print("Motor Current Steps Position:", AF.round_list(flat_qm))
+
             qm = AF.unflatten_list(flat_qm, self.n_MotorsPerJoint)
             qj = self.get_JointAnglesFromMotorSteps(motor_steps=qm, out_type="Position")
 
             qj = AF.wrap_list_half_max(qj, 2 * math.pi).tolist()
 
             print("Succesfully obtained joint values.")
-            print()
 
             time.sleep(0.1)
             return qj
@@ -301,9 +258,8 @@ class GiRbot(PhysicalRobot):
 
                 raise Exception("Error setting Position")
 
-            print("Target Steps Motor Position:", flat_qm)
+            print("Motor Target Steps Position:", AF.round_list(flat_qm))
             print("Succesfully set target position.")
-            print()
 
             time.sleep(0.1)
             return True
@@ -341,8 +297,8 @@ class GiRbot(PhysicalRobot):
 
             crrntValues = self.current_q
 
-            print("Current q values:", crrntValues)
-            print("Target q values:", trgtValues)
+            print("Current Joint values:", crrntValues)
+            print("Target Joint values:", trgtValues)
 
             if AF.floats_equal(crrntValues, trgtValues):
 
@@ -385,7 +341,6 @@ class GiRbot(PhysicalRobot):
                 raise Exception("Error setting movement to position!")
 
             print("Succesfully set movement type to position.")
-            print()
 
             self.current_q = trgtValues
 
@@ -484,9 +439,9 @@ class GiRbot(PhysicalRobot):
 
                 m_qd.append(AF.flatten_list(m_qd_i))
 
-            np.save("LTraj_files/" + traj_name + "_q", traj.q)
-            np.save("LTraj_files/" + traj_name + "_qd", traj.qd)
-            np.save("LTraj_files/" + traj_name + "_t", traj.t)
+            # np.save("LTraj_files/" + traj_name + "_q", traj.q)
+            # np.save("LTraj_files/" + traj_name + "_qd", traj.qd)
+            # np.save("LTraj_files/" + traj_name + "_t", traj.t)
 
             m_qd = m_qd
 
@@ -497,10 +452,11 @@ class GiRbot(PhysicalRobot):
 
             for i, qd in enumerate(m_qd):
 
-                print("Steps/s:", qd)
+                print('-')
+                print("Steps/s:", AF.round_list(qd))
+                print(f'Timestamp: {traj.t[i]}')
                 self.driver.trajToPosition(list(qd))
                 time.sleep(t_inc)
-                print()
 
             self.mov_time = 0.1  # Final position already reached
 
@@ -508,7 +464,6 @@ class GiRbot(PhysicalRobot):
             self.current_q = traj.q[-1]
 
             print("Succesfully set movement type to position.")
-            print()
 
         else:
 
@@ -520,20 +475,80 @@ class GiRbot(PhysicalRobot):
 
     def cmd_Init(self):
 
+        print()
+        print("------- INITIALIZE ROBOT ----------")
+
         self.cmd_Connect()
         self.cmd_setMotorParams()
         self.cmd_setMotorRanges()
 
+        print("-----------------------------------")
+        print()
+
         return True
 
+    def cmd_openGripper(self):
+
+        print()
+        print("------- OPEN GRIPPER ----------")
+
+        if self.connected:
+
+            print("Opening gripper...")
+
+            if not self.driver.openGripper():
+                raise Exception("Error opening Gripper")
+
+            print("Succesfully opened gripper.")
+
+            time.sleep(0.3)
+
+            print("-----------------------------------")
+            print()
+
+            return True
+
+        else:
+
+            raise Exception(self.not_connected_error_msg)
+
+    def cmd_closeGripper(self):
+
+        print()
+        print("------- CLOSING GRIPPER ----------")
+
+        if self.connected:
+
+            print("Closing gripper...")
+
+            if not self.driver.closeGripper():
+                raise Exception("Error closing Gripper")
+
+            print("Succesfully closed gripper.")
+
+            time.sleep(0.3)
+
+            print("-----------------------------------")
+            print()
+
+            return True
+
+        else:
+
+            raise Exception(self.not_connected_error_msg)
+
     def cmd_WaitEndMove(self):
+
+        print()
+        print("------------ WAIT END MOVE --------------")
 
         print(f"Waiting {round(self.mov_time)}s for the end of the movement")
         time.sleep(self.mov_time)
         self.cmd_Stop()
-        print("Movement completed")
-        print()
+        print("Movement ended")
 
+        print("-----------------------------------")
+        print()
         return True
 
     def cmd_MoveL(
@@ -544,7 +559,10 @@ class GiRbot(PhysicalRobot):
         trgtQ: Optional[list] = None,
         n_interp=500,
         mask=[1, 1, 1, 0, 0, 1],
-    ):
+    ):  
+        print()
+        print("------------ MOVE LINE --------------")
+
         # Ensure that exactly one of trgtPose or trgtQ is provided
         if (trgtPose is None and trgtQ is None) or (
             trgtPose is not None and trgtQ is not None
@@ -571,6 +589,9 @@ class GiRbot(PhysicalRobot):
                 mask=mask,
             )
 
+        print("-----------------------------------")
+        print()
+
     def cmd_MoveJ(
         self,
         maxVel,
@@ -578,6 +599,9 @@ class GiRbot(PhysicalRobot):
         trgtPose: Optional[list] = None,
         trgtQ: Optional[list] = None,
     ):
+
+        print()
+        print("------------ MOVE JOINTS --------------")
 
         # Ensure that exactly one of trgtPose or trgtQ is provided
         if (trgtPose is None and trgtQ is None) or (
@@ -592,6 +616,36 @@ class GiRbot(PhysicalRobot):
         elif trgtQ is not None:
             self.cmd_setTargetPose(q=trgtQ)
             self.cmd_moveToPosition(trgtQ=trgtQ, maxVel=maxVel, Accel=Accel)
+
+        print("-----------------------------------")
+        print()
+
+    def cmd_MoveHome(self):
+
+        print()
+        print("------------ MOVE HOME --------------")
+
+        self.cmd_setTargetPose(q=self.home_q)
+
+        m_Vel = []
+        m_Accel = []
+
+        for j in self.MotorsPerJoint:
+            for m in j:
+                m_Vel.append(m.maxStepsVel)
+                m_Accel.append(m.maxStepsAccel)
+
+        motor_params = np.array(m_Vel + m_Accel) / 10
+
+        if not self.driver.moveToPosition(list(motor_params)):
+            raise Exception("Error moving to position!")
+
+        print('Motor velocities setted correctlly')
+
+        self.mov_time = 15
+
+        print("-----------------------------------")
+        print()
 
 
 if __name__ == "__main__":
@@ -707,7 +761,7 @@ if __name__ == "__main__":
 
     robot = GiRbot(
         name="Moveo3D",
-        ArduinoDriver=md.Moveo(),
+        ArduinoDriver=MD.Moveo(),
         MotorsPerJoint=motor_configurations,
         DH_JointList=joints,
         DH_Tool=tool,

@@ -4,7 +4,7 @@ import numpy as np
 from DHRobot import RevoluteDH, RobotTool
 from PhysicalRobot import StepperMotor
 from nIK_Corke import ikine_LM_Corke as IK_solver
-import moveo_driver as md
+import moveo_driver as MD
 
 np.set_printoptions(precision=2, suppress=True)
 
@@ -117,7 +117,7 @@ motor_configurations = [
 
 Moveo = GiRbot(
     name="Moveo3D",
-    ArduinoDriver=md.Moveo(),
+    ArduinoDriver=MD.Moveo(),
     MotorsPerJoint=motor_configurations,
     DH_JointList=joints,
     DH_Tool=tool,

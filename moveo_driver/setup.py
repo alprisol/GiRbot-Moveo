@@ -13,8 +13,10 @@ ext_modules = [
 
 setup(
     name="moveo_driver",
+    description='Driver for controlling a Moveo robot arm with serial communication and COBS protocol',
     author="Patryk Cieslak & Albert Prieto",
-    version='0.2',
+    author_email='patryk.cieslak@udg.edu , albert.prieto@udg.edu',
+    version='1.0',
     setup_requires=['pybind11'],  # Ensure pybind11 is included
     install_requires=['pybind11'],  # In case pybind11 is required at runtime
     ext_modules=ext_modules,
