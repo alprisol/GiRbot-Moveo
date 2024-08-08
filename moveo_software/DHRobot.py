@@ -78,15 +78,16 @@ class JointDH:
         self.qlim = []
 
         for bound in qlim:
-            
-            if (abs(abs(bound) - math.pi) > 1e-5):
 
-                self.qlim.append(bound*0.9999999999) # Avoid having exactly pi, as it brings problems.
+            if abs(abs(bound) - math.pi) > 1e-5:
+
+                self.qlim.append(
+                    bound * 0.9999999999
+                )  # Avoid having exactly pi, as it brings problems.
 
             else:
 
                 self.qlim.append(bound)
-
 
     def get_Tfm(self):
         """
@@ -238,10 +239,11 @@ class DHRobot:
                 in_range = AF.check_linear_in_range(val, qlim)
 
             if not in_range:
-                raise ValueError(f"Joint value {val} at index {idx} is out of range {qlim}.")
+                raise ValueError(
+                    f"Joint value {val} at index {idx} is out of range {qlim}."
+                )
 
             return in_range
-        
 
         if check_val is not None and idx is not None:
 
@@ -294,7 +296,9 @@ class DHRobot:
 
             if jp[2] < 0.05:
 
-                raise ValueError(f"Collision with the floor. Position {i} with values {jp}")
+                raise ValueError(
+                    f"Collision with the floor. Position {i} with values {jp}"
+                )
 
         return False
 
@@ -486,9 +490,9 @@ class DHRobot:
         q_values_list = []
         pose_list = []
 
-        joint_limits = (
-            self.get_JointRanges()
-        )
+        joint_limits = self.get_JointRanges()
+
+        print(f"Generating {n_samples} samples for {self.DH_name} ...")
 
         # Correct joint limits if min is greater than max
         corrected_joint_limits = []
@@ -503,7 +507,11 @@ class DHRobot:
             for low, high in joint_limits:
                 if low > high:
                     # Generate value from low to 2π or -2π to high
-                    value = np.random.uniform(low, 2 * np.pi) if np.random.rand() < 0.5 else np.random.uniform(-2 * np.pi, high)
+                    value = (
+                        np.random.uniform(low, 2 * np.pi)
+                        if np.random.rand() < 0.5
+                        else np.random.uniform(-2 * np.pi, high)
+                    )
                 else:
                     # Generate value from low to high
                     value = np.random.uniform(low, high)
@@ -567,14 +575,16 @@ class DHRobot:
         # Get joint ranges
         joint_ranges = self.get_JointRanges()
 
-
-
         # Forward difference for the first time-stamp
         for j in range(N):
             is_linear = prismatic_joints[j]
             valid_range = joint_ranges[j]
 
-            qd[0, j] = -1 * AF.calc_dist_in_range(q[1, j], q[0, j], is_linear, valid_range) / dt[0]
+            qd[0, j] = (
+                -1
+                * AF.calc_dist_in_range(q[1, j], q[0, j], is_linear, valid_range)
+                / dt[0]
+            )
         print()
 
         # Central difference for the intermediate points
@@ -583,16 +593,25 @@ class DHRobot:
             for j in range(N):
                 is_linear = prismatic_joints[j]
                 valid_range = joint_ranges[j]
-    
-                qd[i, j] = -1 * AF.calc_dist_in_range(q[i + 1, j], q[i - 1, j], is_linear, valid_range) / (dt[i] + dt[i - 1])
 
+                qd[i, j] = (
+                    -1
+                    * AF.calc_dist_in_range(
+                        q[i + 1, j], q[i - 1, j], is_linear, valid_range
+                    )
+                    / (dt[i] + dt[i - 1])
+                )
 
             # Backward difference for the last time-stamp
         for j in range(N):
             is_linear = prismatic_joints[j]
             valid_range = joint_ranges[j]
 
-            qd[-1, j] = -1 * AF.calc_dist_in_range(q[-1, j], q[-2, j], is_linear, valid_range) / dt[-1]
+            qd[-1, j] = (
+                -1
+                * AF.calc_dist_in_range(q[-1, j], q[-2, j], is_linear, valid_range)
+                / dt[-1]
+            )
 
         # Setting the first and the last velocities to zero as specified
         qd[0, :] = 0
@@ -1051,11 +1070,13 @@ if __name__ == "__main__":
     #     print("No Singularities were found")
     # else:
     #     print(f"After Treating the Singularities, there are {len(traj.t)} positions.")
-    traj_name = ("[0.22, 0.0, 0.47, 0.0, -0.0, -0.0]-to-[0.0, 0.22, 0.47, 1.57, -0.0, 0.0]")
+    traj_name = (
+        "[0.22, 0.0, 0.47, 0.0, -0.0, -0.0]-to-[0.0, 0.22, 0.47, 1.57, -0.0, 0.0]"
+    )
 
-    traj_q = np.load("LTraj_files/" + traj_name + '_q.npy')
+    traj_q = np.load("LTraj_files/" + traj_name + "_q.npy")
     traj_qd = np.load("LTraj_files/" + traj_name + "_qd.npy")
-    traj_t = np.load("LTraj_files/" + traj_name + '_t.npy')
+    traj_t = np.load("LTraj_files/" + traj_name + "_t.npy")
 
     robot.plot_RobotMovement(
         traj_q, movie_name="LTraj_files/" + traj_name, movie_time=10

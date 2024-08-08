@@ -452,9 +452,9 @@ class GiRbot(PhysicalRobot):
 
             for i, qd in enumerate(m_qd):
 
-                print('-')
+                print("-")
                 print("Steps/s:", AF.round_list(qd))
-                print(f'Timestamp: {traj.t[i]}')
+                print(f"Timestamp: {traj.t[i]}")
                 self.driver.trajToPosition(list(qd))
                 time.sleep(t_inc)
 
@@ -558,8 +558,8 @@ class GiRbot(PhysicalRobot):
         trgtPose: Optional[list] = None,
         trgtQ: Optional[list] = None,
         n_interp=500,
-        mask=[1, 1, 1, 0, 0, 1],
-    ):  
+        mask=[1, 1, 1, 1, 0, 0],
+    ):
         print()
         print("------------ MOVE LINE --------------")
 
@@ -620,7 +620,7 @@ class GiRbot(PhysicalRobot):
         print("-----------------------------------")
         print()
 
-    def cmd_MoveHome(self, maxVel = 0.5, maxAccel = 0.25):
+    def cmd_MoveHome(self, maxVel=0.5, maxAccel=0.25):
 
         print()
         print("------------ MOVE HOME --------------")

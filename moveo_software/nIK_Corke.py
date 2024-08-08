@@ -82,7 +82,7 @@ def ikine_LM_Corke(
 
         mask = None
 
-    print(f'Mask set at {mask}. Change it if necessary with attribute <mask>')
+    print(f"Mask set at {mask}. Change it if necessary with attribute <mask>")
     print(
         f"Valid Ranges for Corke's robot:\n{list(CorkeRobot.qlim[0])}\n{list(CorkeRobot.qlim[1])}"
     )
@@ -120,7 +120,7 @@ def ikine_LM_Corke(
                     tol=1e-6,
                     ilimit=100,
                     slimit=150,
-                    mask=mask if i != 0 else [1,1,1,1,1,1],
+                    mask=mask if i != 0 else [1, 1, 1, 1, 1, 1],
                 )
 
                 q_sol = list(ik_sol.q)
@@ -128,17 +128,17 @@ def ikine_LM_Corke(
 
                 if q0 is not None:
 
-                    if i == 0 and not AF.floats_equal(list(q_sol),list(q0),tol=1e-3):
+                    if i == 0 and not AF.floats_equal(list(q_sol), list(q0), tol=1e-3):
 
-                        print('Initial solution no equal given starting configuration')
+                        print("Initial solution no equal given starting configuration")
                         good_solution = False
                         attempt_count += 1
 
                 if i == 0 or i == len(trgt_poses) - 1:
                     print(f"Corke IK sol {i+1}: {q_sol}")
 
-                elif i == 1: 
-                    print('... calculating IK solutions for intermediate points ...')
+                elif i == 1:
+                    print("... calculating IK solutions for intermediate points ...")
 
                 good_solution = True
 
@@ -150,11 +150,15 @@ def ikine_LM_Corke(
                         AF.nearest_neighbor(pose_samples, trgt_pose, True),
                         axis=0,
                     )
-                    q_closer = q_samples[AF.nearest_neighbor(pose_samples, trgt_pose, True)]
+                    q_closer = q_samples[
+                        AF.nearest_neighbor(pose_samples, trgt_pose, True)
+                    ]
                 attempt_count += 1
 
         if not good_solution:
-            raise RuntimeError(f"Failed to find a valid IK solution after {max_attempts} attempts.")
+            raise RuntimeError(
+                f"Failed to find a valid IK solution after {max_attempts} attempts."
+            )
 
         if ik_sol.success:
             solutions.append(q_sol)
