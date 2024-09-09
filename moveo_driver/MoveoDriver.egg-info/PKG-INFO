@@ -1,7 +1,0 @@
-Metadata-Version: 2.1
-Name: MoveoDriver
-Version: 1.0
-Summary: Driver for controlling a Moveo robot arm with serial communication and COBS protocol
-Author: Patryk Cieslak & Albert Prieto
-Author-email: patryk.cieslak@udg.edu , albert.prieto@udg.edu
-Requires-Dist: pybind11

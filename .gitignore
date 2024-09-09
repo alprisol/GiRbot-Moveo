@@ -11,4 +11,6 @@ TLBXvenv/
 moveo_software/LTraj_files/
 moveo_software/test_calcDist.py
 moveo_software/test_*
-
+moveo_driver/test_*
+moveo_firmware/test_*
+test_*
