@@ -632,7 +632,7 @@ class GiRbot(PhysicalRobot):
             trgtPose (Optional[list]): The target end-effector pose for the robot.
             trgtQ (Optional[list]): The target joint configuration for the robot.
             mask (list, optional): Mask used in inverse kinematics to control which degrees of freedom
-                are used. Defaults to [1, 1, 1, 1, 0, 0] (ignore wrist orientation).
+                are used. Defaults to [1, 1, 1, 1, 0, 0].
 
         Raises:
             ValueError: If neither 'trgtPose' nor 'trgtQ' is provided, or both are provided simultaneously.
@@ -1012,50 +1012,27 @@ class GiRbot(PhysicalRobot):
         print("-----------------------------------")
         print()
 
-    def cmd_MoveJ(
-        self,
-        maxVel,
-        Accel,
-        trgtPose: Optional[list] = None,
-        trgtQ: Optional[list] = None,
-    ):
+    def cmd_MoveHome(self, maxVel=0.5, maxAccel=0.25):
         """
-        Moves the robot joints to a specified target pose or joint configuration.
+        Moves the robot to its home position.
 
-        This method allows joint-based movement (MoveJ) to either a target pose or target joint angles.
-        It ensures smooth motion using the specified maximum velocity and acceleration.
+        This method moves the robot to a predefined 'home' position using joint-based movement (MoveJ).
+        The movement is executed with the specified maximum velocity and acceleration.
 
         Args:
-            maxVel: The maximum velocity for the joints during the movement.
-            Accel: The acceleration for the joints during the movement.
-            trgtPose (Optional[list]): The target end-effector pose for the robot. Must be provided if 'trgtQ' is None.
-            trgtQ (Optional[list]): The target joint configuration for the robot. Must be provided if 'trgtPose' is None.
-
-        Raises:
-            ValueError: If neither 'trgtPose' nor 'trgtQ' is provided, or both are provided simultaneously.
+            maxVel (float, optional): The maximum velocity for the joints during the movement. Defaults to 0.5.
+            maxAccel (float, optional): The acceleration for the joints during the movement. Defaults to 0.25.
         """
 
-        # Print header indicating the start of the joint movement.
+        # Print header indicating the start of the home position movement.
         print()
-        print("------------ MOVE JOINTS --------------")
+        print("------------ MOVE HOME --------------")
 
-        # Ensure that exactly one of 'trgtPose' or 'trgtQ' is provided, raise an error if not.
-        if (trgtPose is None and trgtQ is None) or (
-            trgtPose is not None and trgtQ is not None
-        ):
-            raise ValueError("Exactly one of 'trgtPose' or 'trgtQ' must be provided")
+        # Set the target position to the predefined home joint configuration and execute the movement.
+        self.cmd_setTargetPose(q=self.home_q)
+        self.cmd_moveToPosition(trgtQ=self.home_q, maxVel=maxVel, Accel=maxAccel)
 
-        # If a target pose is provided, set the target pose and execute a joint movement.
-        if trgtPose is not None:
-            self.cmd_setTargetPose(pose=trgtPose)
-            self.cmd_moveToPosition(trgtPose=trgtPose, maxVel=maxVel, Accel=Accel)
-
-        # If a target joint configuration is provided, set the target joint values and move the robot.
-        elif trgtQ is not None:
-            self.cmd_setTargetPose(q=trgtQ)
-            self.cmd_moveToPosition(trgtQ=trgtQ, maxVel=maxVel, Accel=Accel)
-
-        # Print footer indicating the end of the joint movement.
+        # Print footer indicating the end of the home position movement.
         print("-----------------------------------")
         print()
 

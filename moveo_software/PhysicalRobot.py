@@ -67,6 +67,12 @@ class StepperMotor:
 
 
 class PhysicalRobot(DHRobot):
+    """
+    The `PhysicalRobot` class represents a physical robotic arm that extends the `DHRobot` class. It incorporates
+    stepper motors for each joint and manages the connection with the hardware. This initialization sets up the
+    robot's DH parameters and motors.
+    """
+
     def __init__(
         self,
         MotorsPerJoint: List[List[StepperMotor]],
@@ -78,10 +84,6 @@ class PhysicalRobot(DHRobot):
     ):
         """
         Initialize a physical robot with stepper motors and Denavit-Hartenberg (DH) parameters.
-
-        The `PhysicalRobot` class represents a physical robotic arm that extends the `DHRobot` class. It incorporates
-        stepper motors for each joint and manages the connection with the hardware. This initialization sets up the
-        robot's DH parameters and motors.
 
         Parameters:
         - MotorsPerJoint (list of list of StepperMotor): A nested list where each sublist contains the stepper motors

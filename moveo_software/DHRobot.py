@@ -77,10 +77,10 @@ class JointDH:
     DH parameters: `theta`, `d`, `a`, `alpha`, and joint limits (`qlim`).
 
     Parameters:
-    - theta (float): The joint angle (for revolute joints) or offset (for prismatic joints).
+    - theta (float): The joint angle (for revolute joints).
     - d (float): The offset along the previous z-axis to the common normal (for prismatic joints).
-    - a (float): The length of the common normal (i.e., the offset along the x-axis).
-    - alpha (float): The angle about the common normal (i.e., the offset in z).
+    - a (float): The length of the common normal.
+    - alpha (float): The angle about the common normal.
     - qlim (list): The joint limits as a list [min, max]. Used to limit the range of joint movement.
     - j_type (int): The type of joint. `0` for Revolute, `1` for Prismatic.
     """
@@ -154,24 +154,24 @@ class JointDH:
 class RevoluteDH(JointDH):
     """
     The `RevoluteDH` class represents a revolute joint in a robotic arm, where the joint rotates about the z-axis
-        as defined by its DH parameters. This class is a subclass of `JointDH` and specifically sets up a revolute
-        joint with the `theta` parameter representing the rotation angle.
+    as defined by its DH parameters. This class is a subclass of `JointDH` and specifically sets up a revolute
+    joint with the `theta` parameter representing the rotation angle.
 
-        Parameters:
-        - home (float): The home position angle for the joint in radians. This is the default or "neutral" position
-          when the robot is in its standard pose.
-        - d (float): The offset along the previous z-axis to the common normal. This corresponds to the translation
-          along the z-axis for prismatic joints, but is constant for revolute joints.
-        - a (float): The length of the common normal, which is the offset along the x-axis.
-        - alpha (float): The twist angle about the common normal, defining the orientation of the joint's x-axis
-          relative to the previous joint's x-axis.
-        - qlim (list): The range of motion for the revolute joint, expressed as a list [min, max]. Defaults to full
-          rotation (close to [-π, π]) but with a small margin to avoid computational issues with exact multiples of π.
+    Parameters:
+    - home (float): The home position angle for the joint in radians. This is the default or "neutral" position
+        when the robot is in its standard pose.
+    - d (float): The offset along the previous z-axis to the common normal. This corresponds to the translation
+        along the z-axis for prismatic joints, but is constant for revolute joints.
+    - a (float): The length of the common normal, which is the offset along the x-axis.
+    - alpha (float): The twist angle about the common normal, defining the orientation of the joint's x-axis
+        relative to the previous joint's x-axis.
+    - qlim (list): The range of motion for the revolute joint, expressed as a list [min, max]. Defaults to full
+        rotation (close to [-π, π]) but with a small margin to avoid computational issues with exact multiples of π.
 
-        Notes:
-        - In the DH convention, the `theta` parameter for revolute joints represents the joint's angle, which is
-          updated during robot movements.
-        - This class uses `j_type=0` to indicate that the joint is revolute.
+    Notes:
+    - In the DH convention, the `theta` parameter for revolute joints represents the joint's angle, which is
+        updated during robot movements.
+    - This class uses `j_type=0` to indicate that the joint is revolute.
 
     """
 
@@ -1006,7 +1006,7 @@ class DHRobot:
         elif q is not None:
             q = q
 
-        else:
+        if len(q) > 1:
             raise ValueError(
                 "Function <plot_RobotStatic> only supports single configurations. For multiple input configurations, use <plot_RobotMovement>"
             )

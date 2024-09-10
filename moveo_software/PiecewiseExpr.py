@@ -30,16 +30,13 @@ class PiecewiseFunction:
     expressions for different ranges of an independent variable.
 
     Attributes:
-        pieces (List[Piece]): A list of pieces where each piece contains a mathematical
-                              expression and a condition for the independent variable.
-        id_var (sympy.Symbol): The independent variable symbol (default is "x").
-        d_var (sympy.Symbol): The dependent variable symbol (default is "y").
-        expr (sympy.Piecewise): The final piecewise expression constructed from the
-                                list of pieces.
+    - pieces (List[Piece]): A list of pieces where each piece contains a mathematical
+                            expression and a condition for the independent variable.
+    - id_var (sympy.Symbol): The independent variable symbol (default is "x").
+    - d_var (sympy.Symbol): The dependent variable symbol (default is "y").
+    - expr (sympy.Piecewise): The final piecewise expression constructed from the
+                            list of pieces.
 
-    Methods:
-        __init__: Initializes the piecewise function by defining the independent and
-                  dependent variables and constructing the function.
     """
 
     def __init__(

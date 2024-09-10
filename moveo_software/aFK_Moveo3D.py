@@ -80,7 +80,7 @@ def FKa_Moveo(q: Union[np.ndarray, list], T_tool: np.ndarray = np.eye(4)):
                 [nz, oz, az, z],  # Rotation matrix and translation for the z-axis
                 [0, 0, 0, 1],
             ]
-        )  # Homogeneous coordinate row
+        )
         @ T_tool  # Multiply by the tool transformation matrix to include tool offset
     )
 

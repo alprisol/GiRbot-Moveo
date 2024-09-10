@@ -16,11 +16,11 @@ def wrap_angle(angle):
     an equivalent angle in the range [-π, π], effectively keeping the angle
     within one full rotation.
 
-    Args:
-        angle (float): The input angle in radians.
+    Parameters:
+    - angle (float): The input angle in radians.
 
     Returns:
-        float: The wrapped angle in the range [-π, π].
+    - float: The wrapped angle in the range [-π, π].
     """
 
     # Use atan2 to wrap the angle to the range [-π, π] by computing
@@ -38,10 +38,10 @@ def wrap_angle_list(angles):
     desired range.
 
     Parameters:
-    angles (list or array-like): A list or array of angles in radians.
+    - angles (list or array-like): A list or array of angles in radians.
 
     Returns:
-    numpy.ndarray: An array of angles wrapped to the range [-pi, pi].
+    - numpy.ndarray: An array of angles wrapped to the range [-pi, pi].
     """
     # Convert the input angles to a NumPy array for efficient numerical operations.
     angles = np.array(angles)
@@ -63,11 +63,11 @@ def wrap_value_zero_max(v, max_v):
     wraps around. If `v` is negative, it will still wrap into the range.
 
     Parameters:
-    v (float or int): The value to wrap.
-    max_v (float or int): The upper limit for wrapping. Must be greater than 0.
+    - v (float or int): The value to wrap.
+    - max_v (float or int): The upper limit for wrapping. Must be greater than 0.
 
     Returns:
-    float or int: The wrapped value, which will be in the range [0, max_v).
+    - float or int: The wrapped value, which will be in the range [0, max_v).
 
     Raises:
     ValueError: If `max_v` is less than or equal to 0.
@@ -94,14 +94,14 @@ def wrap_list_zero_max(values, max_values):
     3. If `values` is a single number, it is wrapped by `max_values`.
 
     Parameters:
-    values (list or float/int): A list of values or a single value to be wrapped.
-    max_values (list or float/int): A list of max values or a single max value
-                                    to wrap the values by.
+    - values (list or float/int): A list of values or a single value to be wrapped.
+    - max_values (list or float/int): A list of max values or a single max value
+                                      to wrap the values by.
 
     Returns:
-    list or float/int: The wrapped values. If input was a list, a list of wrapped
-                       values is returned. If input was a single value, a single
-                       wrapped value is returned.
+    - list or float/int: The wrapped values. If input was a list, a list of wrapped
+                         values is returned. If input was a single value, a single
+                         wrapped value is returned.
 
     Raises:
     ValueError: If both `values` and `max_values` are lists of different lengths.
@@ -134,11 +134,11 @@ def wrap_value_half_max(v, max_v):
     [0, max_v), then adjusts back to center the range.
 
     Parameters:
-    v (float or int): The value to be wrapped.
-    max_v (float or int): The upper limit of the wrapping range. Must be greater than 0.
+    - v (float or int): The value to be wrapped.
+    - max_v (float or int): The upper limit of the wrapping range. Must be greater than 0.
 
     Returns:
-    float or int: The wrapped value, which will be in the range [-max_v/2, max_v/2).
+    - float or int: The wrapped value, which will be in the range [-max_v/2, +max_v/2).
 
     Raises:
     ValueError: If `max_v` is less than or equal to 0.
@@ -171,12 +171,12 @@ def wrap_list_half_max(values, max_values):
     3. If `values` is a single number, it is wrapped by `max_values`.
 
     Parameters:
-    values (list or float/int): A list of values or a single value to be wrapped.
-    max_values (list or float/int): A list of max values or a single max value
+    - values (list or float/int): A list of values or a single value to be wrapped.
+    - max_values (list or float/int): A list of max values or a single max value
                                     to wrap the values by.
 
     Returns:
-    list or float/int: The wrapped values. If input was a list, a list of wrapped
+    - list or float/int: The wrapped values. If input was a list, a list of wrapped
                        values is returned. If input was a single value, a single
                        wrapped value is returned.
 
@@ -213,13 +213,13 @@ def check_linear_in_range(
     are still considered valid.
 
     Parameters:
-    value (float): The value to check.
-    valid_range (tuple): A tuple of two floats representing the valid range (lowBound, highBound).
-    tolerance (float, optional): The allowable tolerance when checking the boundaries.
+    - value (float): The value to check.
+    - valid_range (tuple): A tuple of two floats representing the valid range (lowBound, highBound).
+    - tolerance (float, optional): The allowable tolerance when checking the boundaries.
                                  Default is `1e-3`.
 
     Returns:
-    bool: True if the value is within the valid range, accounting for tolerance; False otherwise.
+    - bool: True if the value is within the valid range, accounting for tolerance; False otherwise.
     """
     # Unpack the valid range into lower and upper bounds
     lowBound, highBound = valid_range
@@ -237,13 +237,13 @@ def linear_dist_in_range(value1: float, value2: float, valid_range: tuple) -> fl
     values are valid, the function returns the difference `value2 - value1`.
 
     Parameters:
-    value1 (float): The first value to check.
-    value2 (float): The second value to check.
-    valid_range (tuple): A tuple representing the valid range (lowBound, highBound)
+    - value1 (float): The first value to check.
+    - value2 (float): The second value to check.
+    - valid_range (tuple): A tuple representing the valid range (lowBound, highBound)
                          for both values.
 
     Returns:
-    float: The difference `value2 - value1`, representing the linear distance between
+    - float: The difference `value2 - value1`, representing the linear distance between
            the two values.
 
     Raises:
@@ -270,11 +270,11 @@ def angle_dist(angle1: float, angle2: float) -> float:
     be in the range [-π, π], representing the shortest angular distance between the two angles.
 
     Parameters:
-    angle1 (float): The first angle in radians.
-    angle2 (float): The second angle in radians.
+    - angle1 (float): The first angle in radians.
+    - angle2 (float): The second angle in radians.
 
     Returns:
-    float: The shortest angular distance between `angle1` and `angle2`, in radians, within
+    - float: The shortest angular distance between `angle1` and `angle2`, in radians, within
            the range [-π, π].
     """
     # Wrap both angles to the range [-π, π] using the wrap_angle function
@@ -302,14 +302,14 @@ def check_angle_in_range(
     A small tolerance is allowed to account for precision errors.
 
     Parameters:
-    angle (float): The angle to check, in radians.
-    valid_range (list or tuple): A tuple or list of two floats (lowBound, highBound)
+    - angle (float): The angle to check, in radians.
+    - valid_range (list or tuple): A tuple or list of two floats (lowBound, highBound)
                                  representing the valid angular range.
-    tolerance (float, optional): The allowable tolerance when checking the boundaries.
+    - tolerance (float, optional): The allowable tolerance when checking the boundaries.
                                  Default is `1e-3`.
 
     Returns:
-    bool: True if the angle is within the valid range (accounting for tolerance);
+    - bool: True if the angle is within the valid range (accounting for tolerance);
           False otherwise.
 
     Raises:
@@ -344,13 +344,13 @@ def angle_dist_in_range(angle1: float, angle2: float, valid_range: tuple) -> flo
     the long path around the circle. The valid range can handle wrapped intervals.
 
     Parameters:
-    angle1 (float): The first angle, in radians.
-    angle2 (float): The second angle, in radians.
-    valid_range (tuple): A tuple (lowBound, highBound) specifying the valid angular range.
+    - angle1 (float): The first angle, in radians.
+    - angle2 (float): The second angle, in radians.
+    - valid_range (tuple): A tuple (lowBound, highBound) specifying the valid angular range.
                          It can span across [-π, π].
 
     Returns:
-    float: The angular distance between `angle1` and `angle2`, either the short or long
+    - float: The angular distance between `angle1` and `angle2`, either the short or long
            path, depending on whether the short path stays within the valid range.
 
     Raises:
@@ -398,16 +398,16 @@ def calc_dist_in_range(value1, value2, is_linear, valid_range):
     individual values and lists of values for batch calculations.
 
     Parameters:
-    value1 (float or list of floats): The first value or list of values.
-    value2 (float or list of floats): The second value or list of values.
-    is_linear (bool or list of bools): A boolean or list of booleans indicating whether
+    - value1 (float or list of floats): The first value or list of values.
+    - value2 (float or list of floats): The second value or list of values.
+    - is_linear (bool or list of bools): A boolean or list of booleans indicating whether
                                        to calculate linearly or rotationally.
-    valid_range (tuple or list of tuples): A valid range or list of valid ranges
+    - valid_range (tuple or list of tuples): A valid range or list of valid ranges
                                            for rotational calculations. The range should
                                            be a tuple for each value.
 
     Returns:
-    float or list of floats: The calculated distance(s). If single values are provided,
+    - float or list of floats: The calculated distance(s). If single values are provided,
                              a single distance is returned. If lists are provided,
                              a list of distances is returned.
 
@@ -449,15 +449,15 @@ def interpolate_q_in_range(q1, q2, joint_type, joint_ranges, n_interp):
     interpolation (with wrapping) is used for rotational joints, respecting joint limits.
 
     Parameters:
-    q1 (list or array): The starting joint values.
-    q2 (list or array): The ending joint values.
-    joint_type (list of bools): A list where each boolean indicates whether a joint is linear (True)
+    - q1 (list or array): The starting joint values.
+    - q2 (list or array): The ending joint values.
+    - joint_type (list of bools): A list where each boolean indicates whether a joint is linear (True)
                                 or rotational (False).
-    joint_ranges (list of tuples): The valid range for each joint, given as a tuple (lowBound, highBound).
-    n_interp (int): The number of interpolation steps (excluding the final point `q2`).
+    - joint_ranges (list of tuples): The valid range for each joint, given as a tuple (lowBound, highBound).
+    - n_interp (int): The number of interpolation steps (excluding the final point `q2`).
 
     Returns:
-    numpy.ndarray: A 2D array of interpolated joint configurations. Each row represents a set
+    - numpy.ndarray: A 2D array of interpolated joint configurations. Each row represents a set
                    of joint values at an interpolated step. The array has shape `(n_interp, len(q1))`.
 
     Raises:
@@ -500,11 +500,11 @@ def round_list(input_list, decimals=2):
     Non-numerical values remain unchanged.
 
     Parameters:
-    input_list (list): The list (or nested list) containing elements to be rounded.
-    decimals (int, optional): The number of decimal places to round to. Default is 2.
+    - input_list (list): The list (or nested list) containing elements to be rounded.
+                        decimals (int, optional): The number of decimal places to round to. Default is 2.
 
     Returns:
-    list: A new list with rounded numerical values. Nested lists and tuples are also handled.
+    - list: A new list with rounded numerical values. Nested lists and tuples are also handled.
 
     Example:
     >>> round_list([1.2345, 2.3456, [3.4567, (4.5678, 5.6789)]], 2)
@@ -540,13 +540,13 @@ def floats_equal(a, b, tol=1e-9):
     (defined by `tol`).
 
     Parameters:
-    a (float or list of floats): First number or list of numbers to compare.
-    b (float or list of floats): Second number or list of numbers to compare.
-    tol (float, optional): The tolerance within which the numbers are considered equal.
+    - a (float or list of floats): First number or list of numbers to compare.
+    - b (float or list of floats): Second number or list of numbers to compare.
+    - tol (float, optional): The tolerance within which the numbers are considered equal.
                            Default is 1e-9.
 
     Returns:
-    bool: True if the numbers or lists are equal within the given tolerance;
+    - bool: True if the numbers or lists are equal within the given tolerance;
           False otherwise.
 
     Raises:
@@ -590,17 +590,17 @@ def nearest_neighbor(points, target_value, return_index=False):
     The function supports an option to return either the nearest point or the index of the nearest point.
 
     Parameters:
-    points (np.ndarray): A 2D array of points where each row represents a point in space.
+    - points (np.ndarray): A 2D array of points where each row represents a point in space.
                          If a 1D array is provided, it will be reshaped into a 2D array.
-    target_value (array-like): The target value for which the nearest neighbor is searched.
+    - target_value (array-like): The target value for which the nearest neighbor is searched.
                                It can be a 1D or multi-dimensional array depending on the dimensionality
                                of the points.
-    return_index (bool, optional): If True, the function returns the index of the nearest point
+    - return_index (bool, optional): If True, the function returns the index of the nearest point
                                    in the `points` array. If False (default), the function returns
                                    the nearest point itself.
 
     Returns:
-    np.ndarray or int: The nearest point in the array to the target value (if `return_index` is False),
+    - np.ndarray or int: The nearest point in the array to the target value (if `return_index` is False),
                        or the index of that point (if `return_index` is True).
 
     Example:
@@ -645,10 +645,10 @@ def flatten_list(nested_list):
     a single list containing all the elements of the sublists.
 
     Parameters:
-    nested_list (list of lists): A list containing other lists as elements.
+    - nested_list (list of lists): A list containing other lists as elements.
 
     Returns:
-    list: A flat list containing all the elements from the sublists.
+    - list: A flat list containing all the elements from the sublists.
 
     Example:
     >>> flatten_list([[1, 2], [3, 4], [5, 6]])
@@ -667,12 +667,12 @@ def unflatten_list(flat_list, final_list_structure):
     The sum of the elements in `final_list_structure` should match the length of the `flat_list`.
 
     Parameters:
-    flat_list (list): The flat list that needs to be reshaped.
-    final_list_structure (list of ints): A list of integers where each integer defines the
+    - flat_list (list): The flat list that needs to be reshaped.
+    - final_list_structure (list of ints): A list of integers where each integer defines the
                                          length of the corresponding sublist in the resulting list.
 
     Returns:
-    list: A reshaped list of lists, where each sublist has the specified length.
+    - list: A reshaped list of lists, where each sublist has the specified length.
 
     Raises:
     ValueError: If the total size of the `final_list_structure` doesn't match the size of `flat_list`.
