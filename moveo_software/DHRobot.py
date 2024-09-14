@@ -1001,12 +1001,12 @@ class DHRobot:
 
         # If no configuration is provided, use the current one
         if q is None:
-            q = curr_q
+            q = np.array(curr_q)
 
         elif q is not None:
-            q = q
+            q = np.array(q)
 
-        if len(q) > 1:
+        if q.ndim > 1:
             raise ValueError(
                 "Function <plot_RobotStatic> only supports single configurations. For multiple input configurations, use <plot_RobotMovement>"
             )
