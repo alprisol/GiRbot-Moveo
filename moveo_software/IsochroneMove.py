@@ -589,23 +589,17 @@ if __name__ == "__main__":
     np.set_printoptions(precision=2, suppress=True)
 
     Prova = IsochroneMove(
-        currValues=[0, 0, 0, 0, 0],
-        trgtValues=[
-            (6.75 / 10) * math.pi,
-            -math.pi / 13,
-            -math.pi / 4,
-            -math.pi,
-            -math.pi / 4,
-        ],
+        currValues=[0, math.pi / 2, -math.pi / 2, 0, 0],
+        trgtValues=[0.01, 0, 0, 0.01, 0.01],
         maxVel=10,
         accel=5,
         isPrism=[False, False, False, False, False],
         validRange=[
-            (-(6.75 / 10) * math.pi, (6.75 / 10) * math.pi),
-            (-math.pi / 12, -11 * math.pi / 12),
-            (11 * math.pi / 12, math.pi / 12),
             (-math.pi, math.pi),
-            (-math.pi / 2, math.pi / 2),
+            (-math.pi, math.pi),
+            (-math.pi, math.pi),
+            (-math.pi, math.pi),
+            (-math.pi, math.pi),
         ],
     )
 

@@ -1510,14 +1510,14 @@ if __name__ == "__main__":
     print(robot)
 
     robot.qz = np.array([0, 0, 0, 0, 0], dtype=float)
-    robot.qv = np.array([math.pi / 2, math.pi / 2, -math.pi / 2, 0, 0], dtype=float)
+    robot.qv = np.array([0, math.pi / 2, -math.pi / 2, 0, 0], dtype=float)
     robot.q2 = np.array(
         [-(6.75 / 10) * math.pi, -math.pi / 13, -math.pi / 4, -math.pi, -math.pi / 4],
         dtype=float,
     )
 
     start_q = robot.qz
-    end_q = robot.q2
+    end_q = robot.qv
 
     robot.set_JointValues(start_q)
     start_pose = robot.get_EndEffPosOr()
@@ -1532,7 +1532,7 @@ if __name__ == "__main__":
     robot.plot_RobotStatic()
 
     # JOINT INTERPOLATION
-    j_traj = LinealTrajectory.create(start_pose, end_pose, 0.01, 0.1, 2, 5)
+    j_traj = LinealTrajectory.create(end_pose, start_pose, 0.01, 0.1, 2, 5)
 
     j_traj.q = robot.calc_IK(
         trgt_poses=j_traj.pose,
@@ -1550,11 +1550,7 @@ if __name__ == "__main__":
 
     j_traj.qd = robot.calc_DerivatedArray(j_traj.q, j_traj.t)
 
-    robot.plot_RobotMovement(j_traj.q, "test_JointInterp_Move_Final_2")
-
-    robot.plot_JointEvolution(
-        j_traj.q, j_traj.qd, j_traj.t, "test_JointInterp_Values_Final_2"
-    )
+    robot.plot_RobotMovement(j_traj.q, "test_JointInterp_Move_Prova2")
 
     # CARTESIAN INTERPOLATION - STRAIGHT LINE
     l_traj = LinealTrajectory.create(start_pose, end_pose, 0.01, 0.1, 100, 5)
@@ -1568,7 +1564,7 @@ if __name__ == "__main__":
 
     robot.plot_RobotMovement(
         l_traj.q,
-        "test_CartInterp_Move_untreated_Final_2",
+        "test_CartInterp_Move_untreated_Prova2",
     )
 
     l_traj.qd = robot.calc_DerivatedArray(l_traj.q, l_traj.t)
@@ -1577,10 +1573,10 @@ if __name__ == "__main__":
         l_traj.q,
         l_traj.qd,
         l_traj.t,
-        "test_CartInterp_Values_untreated_Final_2",
+        "test_CartInterp_Values_untreated_Prova2",
     )
 
-    l_traj.plot(skip=5, save_name="test_CartInterp_Path_untreated_Final_2")
+    l_traj.plot(skip=5, save_name="test_CartInterp_Path_untreated_Prova2")
 
     l_traj.q, l_traj.t = rmve_ConfigurationJump(
         l_traj.q,
@@ -1593,13 +1589,13 @@ if __name__ == "__main__":
 
     robot.plot_RobotMovement(
         l_traj.q,
-        "test_CartInterp_Move_treated_Final_2",
+        "test_CartInterp_Move_treated_Prova2",
     )
 
     robot.plot_JointEvolution(
         l_traj.q,
         l_traj.qd,
         l_traj.t,
-        "test_CartInterp_Values_treated_Final_2",
+        "test_CartInterp_Values_treated_Prova2",
     )
-    l_traj.plot(skip=5, save_name="test_CartInterp_Path_treated_Final_2")
+    l_traj.plot(skip=5, save_name="test_CartInterp_Path_treated_Prova2")
